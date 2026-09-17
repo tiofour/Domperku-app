@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: dompetku-app
+    env: php
+    buildCommand: "./build.sh"
+    startCommand: "vendor/bin/heroku-php-apache2 public/"
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: LOG_CHANNEL
+        value: stderr
