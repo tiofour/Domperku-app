@@ -198,6 +198,45 @@
             });
         }
     </script>
-    
+
+    <!-- Tombol Instal PWA Kustom (Opsional) -->
+    <button id="btn-install-pwa" style="display: none;" class="btn btn-primary">
+        Instal Aplikasi DompetKu
+    </button>
+
+    <script>
+        let deferredPrompt;
+        const installBtn = document.getElementById('btn-install-pwa');
+
+        // Menangkap event bawaan browser saat PWA siap diinstal
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Mencegah prompt bawaan Chrome langsung muncul
+            e.preventDefault();
+            deferredPrompt = e;
+            
+            // Tampilkan tombol instal kustom kita di layar
+            if (installBtn) {
+                installBtn.style.display = 'block';
+            }
+        });
+
+        // Menangani aksi klik pada tombol instal kustom
+        if (installBtn) {
+            installBtn.addEventListener('click', async () => {
+                if (deferredPrompt) {
+                    // Tampilkan prompt instalasi PWA
+                    deferredPrompt.prompt();
+                    
+                    // Tunggu respons dari pengguna
+                    const { outcome } = await deferredPrompt.userChoice;
+                    console.log(`Pilihan pengguna: ${outcome}`);
+                    
+                    // Reset variabel prompt
+                    deferredPrompt = null;
+                    installBtn.style.display = 'none';
+                }
+            });
+        }
+    </script>
 </body>
 </html>
